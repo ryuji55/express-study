@@ -1,0 +1,7 @@
+{
+  "name": "express-study",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
