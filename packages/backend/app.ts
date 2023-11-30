@@ -13,12 +13,23 @@ const redis = new Redis({
   enableOfflineQueue: false,
 });
 
+const init = async () => {
+  await Promise.all([
+    redis.set("users:1", JSON.stringify({ id: 1, name: "John" })),
+    redis.set("users:2", JSON.stringify({ id: 2, name: "Jane" })),
+  ]);
+};
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-redis.once("ready", () => {
+redis.once("ready", async () => {
+  console.log("object");
   try {
+    await init();
+    const result = await redis.get("users:1");
+    console.log(result);
     app.listen(process.env.PORT, () => {
       console.log("Example app listening on port 3000!");
     });
