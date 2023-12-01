@@ -1,8 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
+const getUsers = async () => {
+  const response = await fetch("http://localhost:8000/api/users/1");
+  const data = await response.json();
+  return data;
+};
 function App() {
+  getUsers()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+
   return (
     <div className="App">
       <header className="App-header">
