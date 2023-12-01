@@ -1,10 +1,13 @@
 import express, { Request, Response } from "express";
 import * as dotenv from "dotenv";
 import Redis from "ioredis";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 
 const redis = new Redis({
   port: Number(process.env.REDIS_PORT),
