@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+
+interface User {
+  id: number;
+  name: string;
+}
 
 const getUsers = async () => {
   const response = await fetch("http://localhost:8000/api/users/1");
@@ -8,9 +13,15 @@ const getUsers = async () => {
   return data;
 };
 function App() {
-  getUsers()
-    .then((data) => console.log(data))
-    .catch((err) => console.log(err));
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    getUsers()
+      .then((data) => {
+        setUser(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div className="App">
@@ -19,6 +30,13 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
+        {user && (
+          <div>
+            <h2>↓backendから取得したデータ</h2>
+            <p>Name: {user.name}</p>
+            <p>Id: {user.id}</p>
+          </div>
+        )}
         <a
           className="App-link"
           href="https://reactjs.org"
